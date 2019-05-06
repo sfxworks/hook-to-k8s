@@ -30,3 +30,8 @@ spec:
           container:
             image: docker.io/quantomworks/git-to-k8s:latest
             imagePullPolicy: Always
+            env:
+            - name: WEBHOOK_PATH
+              value: "webhook"
+            - name: WEBHOOK_SECRET
+              value: "super-secret"
