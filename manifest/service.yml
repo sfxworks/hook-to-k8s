@@ -1,34 +1,34 @@
 apiVersion: serving.knative.dev/v1alpha1
-   kind: Service
-   metadata:
-     name: git-to-k8s
-     namespace: default
-   spec:
-     runLatest:
-       configuration:
-         build:
-           apiVersion: build.knative.dev/v1alpha1
-           kind: Build
-           spec:
-             serviceAccountName: build-bot
-             source:
-               git:
-                 url: https://github.com/sfxworks/git-to-k8s.git
-                 revision: master
-             template:
-               name: kaniko
-               arguments:
-                 - name: IMAGE
-                   value: docker.io/sfxworks/git-to-k8s:latest
-             timeout: 10m
-         revisionTemplate:
-           spec:
-             container:
-               image: docker.io/sfxworks/git-to-k8s:latest
-               imagePullPolicy: Always
-               env:
-                 - name: WEBHOOK_URL
-                   value: "webhook"
-                 - name: WEBHOOK_SECRET
-                   value: "super-secret-that-should-probably-be-a-secret"
+kind: Service
+metadata:
+  name: git-to-k8s
+  namespace: default
+spec:
+  runLatest:
+    configuration:
+      build:
+        apiVersion: build.knative.dev/v1alpha1
+        kind: Build
+        spec:
+          serviceAccountName: build-bot
+          source:
+            git:
+              url: https://github.com/sfxworks/git-to-k8s.git
+              revision: master
+          template:
+            name: kaniko
+            arguments:
+              - name: IMAGE
+                value: docker.io/sfxworks/git-to-k8s:latest
+          timeout: 10m
+      revisionTemplate:
+        spec:
+          container:
+            image: docker.io/sfxworks/git-to-k8s:latest
+            imagePullPolicy: Always
+            env:
+              - name: WEBHOOK_URL
+                value: "webhook"
+              - name: WEBHOOK_SECRET
+                value: "super-secret-that-should-probably-be-a-secret"
 
