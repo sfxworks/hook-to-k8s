@@ -19,16 +19,14 @@ spec:
             name: kaniko
             arguments:
               - name: IMAGE
-                value: docker.io/sfxworks/git-to-k8s:latest
+                value: docker.io/quantomworks/git-to-k8s:latest
           timeout: 10m
       revisionTemplate:
+        metadata:
+          annotations:
+            autoscaling.knative.dev/minScale: "1"
+            autoscaling.knative.dev/maxScale: "2"
         spec:
           container:
-            image: docker.io/sfxworks/git-to-k8s:latest
+            image: docker.io/quantomworks/git-to-k8s:latest
             imagePullPolicy: Always
-            env:
-              - name: WEBHOOK_URL
-                value: "webhook"
-              - name: WEBHOOK_SECRET
-                value: "super-secret-that-should-probably-be-a-secret"
-
