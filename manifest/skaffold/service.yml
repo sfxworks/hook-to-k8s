@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: node-webook
+spec:
+  selector:
+    app: node-webhook
+  ports:
+  - protocol: TCP
+    port: 8080
+  type: LoadBalancer

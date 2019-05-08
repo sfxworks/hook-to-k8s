@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: node-webhook
+spec:
+  containers:
+  - name: node
+    image: docker.io/quantomworks/git-to-k8s
+    ports:
+    - containerPort: 8080

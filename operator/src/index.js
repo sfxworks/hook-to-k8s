@@ -2,6 +2,9 @@ var http = require('http')
 var createHandler = require('github-webhook-handler')
 var handler = createHandler({ path: '/' + process.env.WEBHOOK_PATH, secret: process.env.WEBHOOK_SECRET })
 
+const k8s = require('@kubernetes/client-node');
+
+
 http.createServer(function (req, res) {
   handler(req, res, function (err) {
     res.statusCode = 404
@@ -20,3 +23,9 @@ handler.on('push', function (event) {
 })
 
 console.log("Initialized.")
+
+const watch = new k8s.Watch(config)
+watch.watch('api/v1/namespaces', {}, (phase, obj) => {
+  
+})
+///test
