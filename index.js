@@ -23,8 +23,11 @@ handler.on('push', function (event) {
   console.log('Received a push event for %s to %s',
     event.payload.repository.name,
     event.payload.ref)
+
+  console.log(event.payload)
+  
   const yamlString = k8s.dumpYaml({
-    "apiVersion": "stable.example.com/v1",
+    "apiVersion": "hook-to-k8s.sfxworks.net/v1",
     "kind": "Payload",
     "metadata": {
       "type": "github",
@@ -36,6 +39,8 @@ handler.on('push', function (event) {
       "payload": event.payload
     }
   })
+
+  console.log(yamlString)
 
 
   k8sApi.createNamespacedCustomObject(yamlString).then((response) => {
