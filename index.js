@@ -25,15 +25,15 @@ handler.on('push', function (event) {
     event.payload.ref)
 
   console.log(event.payload)
-  
+
   const yamlString = k8s.dumpYaml({
     "apiVersion": "hook-to-k8s.sfxworks.net/v1",
     "kind": "Payload",
     "metadata": {
       "type": "github",
       "name": event.payload.repository.name,
-      "sha": event.payload.sha,
-      "size": event.payload.size
+      "sha": event.payload.after,
+      "head commit author": event.payload.head_commit.author.name
     },
     "spec": {
       "payload": event.payload
