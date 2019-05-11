@@ -1,17 +1,18 @@
 apiVersion: skaffold/v1beta9
 kind: Config
-deploy:
-  kubectl:
-    manifests:
-    - manifest\skaffold\pod.yml
-    - manifest\skaffold\service.yml
 build:
   tagPolicy:
     dateTime:
       format: "2006-01-02_15-04-05.999_MST"
       timezone: "Local"
   artifacts:
-  - image: docker.io/quantomworks/git-to-k8s
+  - image: gcr.io/allthingssfx/hook-to-k8s
     context: operator
     sync:
-      'src/***/*.js': src/
+      # Sync all the javascript files that are in the src folder 
+      # with the container src folder
+      'src/***/*.js': .
+deploy:
+  kubectl:
+    manifests:
+    - "manifest/skaffold/**"

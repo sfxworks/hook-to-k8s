@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/sfxworks/git-to-k8s#readme",
   "dependencies": {
-    "@kubernetes/client-node": "^0.8.2",
-    "github-webhook-handler": "^0.7.1"
+    "github-webhook-handler": "^0.7.1",
+    "kubernetes-client": "^7.0.1"
   }
 }

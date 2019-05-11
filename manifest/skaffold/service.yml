@@ -1,11 +1,20 @@
-kind: Service
-apiVersion: v1
+apiVersion: extensions/v1beta1
+kind: Ingress
 metadata:
-  name: node-webook
+  annotations:
+    kubernetes.io/ingress.class: argo-tunnel
+  labels:
+    ingress: argo-tunnel
+  name: webhook-ingress
 spec:
-  selector:
-    app: node-webhook
-  ports:
-  - protocol: TCP
-    port: 8080
-  type: LoadBalancer
+  tls:
+  - hosts:
+    - wehbook.sfxworksdev.net
+    secretName: sfxworksdev.net
+  rules:
+  - host: wehbook.sfxworksdev.net
+    http:
+      paths:
+      - backend:
+          serviceName: node-webhook-service
+          servicePort: http
