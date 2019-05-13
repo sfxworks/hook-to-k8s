@@ -1,0 +1,8 @@
+apiVersion: "hook-to-k8s.sfxworks.net/v1"
+kind: Payload
+metadata:
+  name: test
+spec:
+  url: "test.test"
+  payload: payloadGoesHere
+

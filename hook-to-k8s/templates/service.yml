@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: argo-tunnel
+  labels:
+    ingress: argo-tunnel
+  name: webhook-ingress
+spec:
+  tls:
+  - hosts:
+    - wehbook.sfxworksdev.net
+    secretName: sfxworksdev.net
+  rules:
+  - host: wehbook.sfxworksdev.net
+    http:
+      paths:
+      - backend:
+          serviceName: node-webhook-service
+          servicePort: http

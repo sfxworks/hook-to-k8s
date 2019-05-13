@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
   },
   "repository": {
     "type": "git",
@@ -23,7 +24,8 @@
   },
   "homepage": "https://github.com/sfxworks/git-to-k8s#readme",
   "dependencies": {
-    "@kubernetes/client-node": "^0.8.2",
-    "github-webhook-handler": "^0.7.1"
+    "github-webhook-handler": "^0.7.1",
+    "json-stream": "^1.0.0",
+    "kubernetes-client": "^7.0.1"
   }
 }
