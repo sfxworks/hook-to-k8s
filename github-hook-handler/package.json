@@ -1,0 +1,22 @@
+{
+  "name": "github-hook-handler",
+  "version": "1.0.0",
+  "description": "Hook handler for github webhooks ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sfxworks/hook-to-k8s.git"
+  },
+  "keywords": [
+    "hook-to-k8s"
+  ],
+  "author": "quantomworks",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sfxworks/hook-to-k8s/issues"
+  },
+  "homepage": "https://github.com/sfxworks/hook-to-k8s#readme"
+}
