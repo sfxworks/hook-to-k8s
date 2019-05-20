@@ -89,49 +89,64 @@ function setupHandler() {
 
       const stream = client.apis['build.knative.dev'].v1alpha1.watch.builds.getStream()
       const jsonStream = new JSONStream()
+      console.log("Pipe stream.")
       stream.pipe(jsonStream)
+      
       jsonStream.on('data', async (buildEvent) => {
-        build = buildEvent.object
-        if('annotations' in build.metadata)
+        if(buildEvent)
         {
-          if('hook-to-k8s' in build.metadata.annotations)
+          build = buildEvent.object
+          if('annotations' in build.metadata)
           {
-            console.log(`Update: Status of: ${build.metadata.annotations['hook-to-k8s']} has been update with the following properties:`)
-            console.log(DumpObjectIndented(build.status.conditions, '   '))
-
-            if(build.status.conditions[0].status == 'True')
+            if('hook-to-k8s' in build.metadata.annotations)
             {
-              if(build.status.conditions[0].type == "Succeeded")
+              console.log(`Update: Status of: ${build.metadata.annotations['hook-to-k8s']} has been update with the following properties:`)
+              console.log(DumpObjectIndented(build.status.conditions, '   '))
+  
+              if(build.status.conditions[0].status == 'True')
               {
-                console.log("Service ready to be updated.")
-                console.log(build.metadata.annotations['hook-to-k8s'])
-                stream.abort()
-
-                const patchService = await client.apis["serving.knative.dev"].v1alpha1.namespaces('default').services('mcserverhosting-net-site').patch({body: {
-                  "spec": {
-                    "template": {
-                      "spec": {
-                        "containers": [
-                          {
-                            "image": "docker.io/quantomworks/mcsh-site:" + build.metadata.annotations['hook-to-k8s']
+                if(build.status.conditions[0].type == "Succeeded")
+                {
+                  console.log("Service ready to be updated.")
+                  console.log(build.metadata.annotations['hook-to-k8s'])
+                  stream.abort()
+  
+                  const patchService = await client.apis["serving.knative.dev"].v1alpha1.namespaces('default').services('mcserverhosting-net-site').put({
+                    body: {
+                      apiVersion: "serving.knative.dev/v1alpha1",
+                      kind: "Service",
+                      metadata: {
+                        name: "mcserverhosting-net-site",
+                        resourceVersion: "27547688"
+                      },
+                      spec: {
+                        runLatest: {
+                          configuration: {
+                            revisionTemplate: {
+                              spec: {
+                                container: {
+                                  image: "docker.io/quantomworks/mcsh-site:" + build.metadata.annotations['hook-to-k8s'],
+                                  name: ""
+                                }
+                              }
+                            }
                           }
-                        ]
+                        }
                       }
                     }
-                  }
-                }})
-
-                console.log("Patch result:")
-                console.log(patchService)
-
-
-
+                  })
+  
+                  console.log("Patch result:")
+                  console.log(patchService)
+  
+  
+  
+                }
               }
+  
             }
-
           }
         }
-          
       })
   })
 }
